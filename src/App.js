@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import IdeasContainer from './IdeasContainer.js'
+import IdeaForm from './IdeaForm.js'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      ideas: [{
+          title: 'Awesome Idea 1',
+          description: 'One of my finest ideas'
+        },
+        {
+          title: 'OK Idea 2',
+          description: 'The OKest idea'
+        }
+      ]
+    };
+  };
+  addIdea = (idea) => {
+    this.setState(({ideas: [...this.state.ideas, idea]}));
+  }
+  removeIdea = (event) => {
+    let filteredIdeas = this.state.ideas.filter(all => all.title !== event.target.id);
+    this.setState(({ideas: filteredIdeas}))
+  }
+  render() {
+    return (
+        <main>
+          <h1>IdeaBox!</h1>
+          <IdeaForm addIdea={this.addIdea}/>
+          <IdeasContainer removeIdea={this.removeIdea} ideas={this.state.ideas} />
+        </main>
+      )
+    }
+  }
 
 export default App;
